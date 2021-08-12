@@ -74,6 +74,7 @@ function buildGuestList() {
   for (let i = 0; i < numOfGuest; i++) {
     let guest = {
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+      email: faker.internet.email(),
     };
     guestList.push(guest);
   }
