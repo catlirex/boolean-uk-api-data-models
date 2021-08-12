@@ -20,16 +20,17 @@ model Designer {
 }
 
 model Outfit {
-  id          Int      @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   name        String
   price       Int
   season      String
   designer_id Int
-  designer    Designer @relation(fields: [designer_id], references: [id], onDelete: Cascade)
+  designer    Designer   @relation(fields: [designer_id], references: [id], onDelete: Cascade)
   model_id    Int?
-  model       Model?   @relation(fields: [model_id], references: [id])
+  model       Model?     @relation(fields: [model_id], references: [id])
   event_id    Int?
-  event       Event?   @relation(fields: [event_id], references: [id])
+  event       Event?     @relation(fields: [event_id], references: [id])
+  sale_record Purchase[]
 }
 
 model Model {
@@ -50,9 +51,10 @@ model Event {
 }
 
 model Guest {
-  id     Int           @id @default(autoincrement())
-  name   String
-  events Event_guest[]
+  id       Int           @id @default(autoincrement())
+  name     String
+  events   Event_guest[]
+  purchase Purchase[]
 }
 
 model Event_guest {
@@ -61,4 +63,14 @@ model Event_guest {
   event    Event @relation(fields: [event_id], references: [id], onDelete: Cascade)
   guest_id Int
   guest    Guest @relation(fields: [guest_id], references: [id], onDelete: Cascade)
+}
+
+model Purchase {
+  id        Int    @id @default(autoincrement())
+  quantity  Int
+  price     Int
+  outfit_id Int
+  outfit    Outfit @relation(fields: [outfit_id], references: [id])
+  guest_id  Int
+  guest     Guest  @relation(fields: [guest_id], references: [id], onDelete: Cascade)
 }

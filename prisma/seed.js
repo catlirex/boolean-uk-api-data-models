@@ -81,6 +81,24 @@ async function seed() {
           },
         });
         console.log(event_guest);
+
+        const doPurchase = getRandomInt(0, 1);
+        if (doPurchase) {
+          const targetOutfit = createdOutfit.find(
+            (target) => target.event_id === eventsId
+          );
+          const purchaseData = {
+            quantity: getRandomInt(1, 3),
+            price: targetOutfit.price,
+            outfit: { connect: { id: targetOutfit.id } },
+            guest: { connect: { id: guestId } },
+          };
+
+          const purchaseRecord = await prisma.purchase.create({
+            data: purchaseData,
+          });
+          console.log(purchaseRecord);
+        }
       }
     }
   }
