@@ -68,9 +68,23 @@ function buildEventList() {
   return eventList;
 }
 
+function buildGuestList() {
+  const numOfGuest = getRandomInt(5, 10);
+  const guestList = [];
+  for (let i = 0; i < numOfGuest; i++) {
+    let guest = {
+      name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+    };
+    guestList.push(guest);
+  }
+  return guestList;
+}
+
 module.exports = {
   buildDesignerList,
   buildOutfitList,
   buildModelList,
   buildEventList,
+  buildGuestList,
+  getRandomInt,
 };

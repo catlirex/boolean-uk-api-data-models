@@ -2,10 +2,12 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const {
+  getRandomInt,
   buildDesignerList,
   buildOutfitList,
   buildModelList,
   buildEventList,
+  buildGuestList,
 } = require("../src/utils/mockData");
 
 const getRandomElement = (array) => {
@@ -58,6 +60,30 @@ async function seed() {
   const createdOutfit = await Promise.all(outfitPromises);
   const outfitIds = createdOutfit.map(({ id }) => id);
   console.log(createdOutfit);
+
+  const guests = buildGuestList();
+  const guestsPromises = guests.map(async (guest) => {
+    return await prisma.guest.create({
+      data: guest,
+    });
+  });
+  const createdGuests = await Promise.all(guestsPromises);
+  const guestsIds = createdGuests.map(({ id }) => id);
+
+  for (const guestId of guestsIds) {
+    for (const eventsId of eventsIds) {
+      const joinEvent = getRandomInt(0, 1);
+      if (joinEvent) {
+        const event_guest = await prisma.event_guest.create({
+          data: {
+            event: { connect: { id: eventsId } },
+            guest: { connect: { id: guestId } },
+          },
+        });
+        console.log(event_guest);
+      }
+    }
+  }
 }
 
 seed()
