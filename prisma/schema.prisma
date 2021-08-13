@@ -45,7 +45,7 @@ model Event {
   id      Int           @id @default(autoincrement())
   date    DateTime
   address String
-  name    String
+  name    String        @unique
   outfits Outfit[]
   guests  Event_guest[]
 }

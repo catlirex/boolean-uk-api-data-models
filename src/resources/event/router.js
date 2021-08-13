@@ -9,7 +9,7 @@ const {
 
 eventRouter.get("/", getAllEvents);
 eventRouter.post("/", postOneEvent);
-eventRouter.patch("/", patchOneEvent);
+eventRouter.patch("/:id", patchOneEvent);
 eventRouter.delete("/:id", deleteOneEvent);
 
 module.exports = eventRouter;

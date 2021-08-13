@@ -117,6 +117,11 @@ async function selectOneInclude(filterContent, dbClient, includeContent) {
   }
 }
 
+function typeChecker(value, expectedType) {
+  if (typeof value === expectedType) return true;
+  else return false;
+}
+
 module.exports = {
   errorHandler,
   itemChecker,
@@ -126,4 +131,5 @@ module.exports = {
   updateToDbReturnUpdatedItem,
   deleteToDbReturnDeleteItem,
   selectOneInclude,
+  typeChecker,
 };
