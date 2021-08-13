@@ -1,6 +1,14 @@
 function errorHandler(error, res) {
   console.log(error.message);
 
+  if (error.message.includes(`No 'Event' record(s) `))
+    return res.status(400).json({
+      ERROR: "Assigned Event does not exist, cannot create record",
+    });
+  if (error.message.includes(`No 'Model' record(s) `))
+    return res.status(400).json({
+      ERROR: "Assigned Model does not exist, cannot create record",
+    });
   if (
     error.message.includes(`prisma.guest.create()`) &&
     error.message.includes(`email`)
