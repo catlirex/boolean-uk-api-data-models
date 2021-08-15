@@ -44,19 +44,16 @@ async function postOneModel(req, res) {
 async function patchOneModel(req, res) {
   const id = Number(req.params.id);
   const toUpdateContent = req.body;
-  const { age, height } = toUpdateContent;
 
-  let contentValid = false;
   try {
     const itemExist = await itemChecker(id, model);
     if (!itemExist)
       return res.status(400).json({ ERROR: `MODEL NOT FOUND id:${id}` });
 
-    objectKeyMatchRequirementChecker(toUpdateContent, modelRequirements) &&
-    typeChecker(age, "number") &&
-    typeChecker(height, "number")
-      ? (contentValid = true)
-      : (contentValid = false);
+    let contentValid = objectKeyMatchRequirementChecker(
+      toUpdateContent,
+      modelRequirements
+    );
 
     if (!contentValid)
       return res.status(400).json({ ERROR: `Update info incorrect` });

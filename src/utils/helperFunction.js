@@ -1,9 +1,18 @@
 function errorHandler(error, res) {
   console.log(error.message);
+  if (error.message.includes(` No 'Guest' record(s)`))
+    return res.status(400).json({
+      ERROR: "Guest not found",
+    });
+
+  if (error.message.includes(`Cannot read property 'price' of null`))
+    return res.status(400).json({
+      ERROR: "Purchase Outfit not found",
+    });
 
   if (error.message.includes(`No 'Event' record(s) `))
     return res.status(400).json({
-      ERROR: "Assigned Event does not exist, cannot create record",
+      ERROR: " Event not found",
     });
   if (error.message.includes(`No 'Model' record(s) `))
     return res.status(400).json({
@@ -68,6 +77,7 @@ function objectAllKeyMatchChecker(object, requirementKeysArray) {
 }
 
 function objectKeyMatchRequirementChecker(object, requirementKeysArray) {
+  if (!Object.keys(object).length) return true;
   for (const key of Object.keys(object)) {
     const keyChecker = requirementKeysArray.includes(key);
     if (!keyChecker) return false;

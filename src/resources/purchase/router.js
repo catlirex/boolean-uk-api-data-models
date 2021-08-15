@@ -1,7 +1,13 @@
 const purchaseRouter = require("express").Router();
 
-const { getAllPurchase } = require("./controller");
+const {
+  getAllPurchase,
+  postOnePurchase,
+  deleteOnePurchase,
+} = require("./controller");
 
 purchaseRouter.get("/", getAllPurchase);
+purchaseRouter.post("/", postOnePurchase);
+purchaseRouter.delete("/:id", deleteOnePurchase);
 
 module.exports = purchaseRouter;
