@@ -5,8 +5,10 @@ const {
   postOneModel,
   patchOneModel,
   deleteOneModel,
+  getModelOutfitList,
 } = require("./controller");
 
+modelRouter.get("/:id/outfits", getModelOutfitList);
 modelRouter.get("/", getAllModels);
 modelRouter.post("/", postOneModel);
 modelRouter.patch("/:id", patchOneModel);

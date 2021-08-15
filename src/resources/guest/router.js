@@ -5,8 +5,10 @@ const {
   postOneGuest,
   patchOneGuest,
   deleteOneGuest,
+  getGuestPurchases,
 } = require("./controller");
 
+guestRouter.get("/:id/purchases", getGuestPurchases);
 guestRouter.get("/", getAllGuest);
 guestRouter.post("/", postOneGuest);
 guestRouter.patch("/:id", patchOneGuest);

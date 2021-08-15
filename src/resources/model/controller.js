@@ -1,4 +1,4 @@
-const { model } = require("../../utils/database");
+const { model, event } = require("../../utils/database");
 const {
   errorHandler,
   itemChecker,
@@ -79,4 +79,19 @@ async function deleteOneModel(req, res) {
   }
 }
 
-module.exports = { getAllModels, postOneModel, patchOneModel, deleteOneModel };
+async function getModelOutfitList(req, res) {
+  const id = Number(req.params.id);
+  const result = await model.findUnique({
+    where: { id },
+    select: { outfits: true },
+  });
+  res.json(result);
+}
+
+module.exports = {
+  getAllModels,
+  postOneModel,
+  patchOneModel,
+  deleteOneModel,
+  getModelOutfitList,
+};

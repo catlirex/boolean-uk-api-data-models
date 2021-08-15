@@ -89,4 +89,20 @@ async function deleteOneGuest(req, res) {
   }
 }
 
-module.exports = { getAllGuest, postOneGuest, patchOneGuest, deleteOneGuest };
+async function getGuestPurchases(req, res) {
+  const id = Number(req.params.id);
+  const result = await guest.findUnique({
+    where: { id },
+    select: { purchase: true },
+  });
+
+  res.json(result);
+}
+
+module.exports = {
+  getAllGuest,
+  postOneGuest,
+  patchOneGuest,
+  deleteOneGuest,
+  getGuestPurchases,
+};

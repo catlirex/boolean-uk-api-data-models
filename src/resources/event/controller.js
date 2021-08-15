@@ -75,4 +75,81 @@ async function deleteOneEvent(req, res) {
   }
 }
 
-module.exports = { getAllEvents, postOneEvent, patchOneEvent, deleteOneEvent };
+async function getEventModels(req, res) {
+  const eventName = req.params.eventName;
+  try {
+    const result = await event.findUnique({
+      where: { name: eventName },
+      include: {
+        outfits: {
+          include: {
+            model: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const modelList = result.outfits.map((outfit) => outfit.model.name);
+    let uniqueModelList = [...new Set(modelList)];
+    res.json({ uniqueModelList });
+  } catch (e) {
+    errorHandler(e, res);
+  }
+}
+
+async function getEventDesigners(req, res) {
+  const eventName = req.params.eventName;
+  try {
+    const result = await event.findUnique({
+      where: { name: eventName },
+      include: {
+        outfits: {
+          include: {
+            designer: {
+              select: { name: true },
+            },
+          },
+        },
+      },
+    });
+
+    const designerList = result.outfits.map((outfit) => outfit.designer.name);
+    let uniqueDesignerList = [...new Set(designerList)];
+
+    res.json({ uniqueDesignerList });
+  } catch (e) {
+    errorHandler(e, res);
+  }
+}
+
+async function getEventGuest(req, res) {
+  const eventName = req.params.eventName;
+  try {
+    const result = await event.findUnique({
+      where: { name: eventName },
+      include: {
+        guests: { include: { guest: { select: { name: true } } } },
+      },
+    });
+
+    const guestsList = result.guests.map((target) => target.guest.name);
+
+    res.json({ guestsList });
+  } catch (e) {
+    errorHandler(e, res);
+  }
+}
+
+module.exports = {
+  getAllEvents,
+  postOneEvent,
+  patchOneEvent,
+  deleteOneEvent,
+  getEventModels,
+  getEventDesigners,
+  getEventGuest,
+};
